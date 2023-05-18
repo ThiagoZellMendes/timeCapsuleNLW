@@ -42,7 +42,7 @@ export default function App() {
           </Text>
           <Text className="text-base leading-relaxed text-center text-gray-200 font-body">
             Coleciopone momentos marcantes da sua jornada e compartilhe (se
-            quiser) com o mundo"
+            quiser) com o mundo!
           </Text>
         </View>
 
