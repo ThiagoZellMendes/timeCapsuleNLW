@@ -1,20 +1,60 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { ImageBackground, View, Text, TouchableOpacity } from "react-native";
-import blurBg from "./src/assets/bg-blur.png";
-import Stripes from "./src/assets/stripes.svg";
+import blurBg from "../src/assets/bg-blur.png";
+import Stripes from "../src/assets/stripes.svg";
+import NLWLogo from "../src/assets/nlw-logo.svg";
+import { api } from "../src/lib/api";
 import { styled } from "nativewind";
-import NLWLogo from "./src/assets/nlw-logo.svg";
+import * as SecureStore from "expo-secure-store";
+import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
+import { useRouter } from "expo-router";
 import { BaiJamjuree_700Bold } from "@expo-google-fonts/bai-jamjuree";
 import {
-  useFonts,
+useFonts,
   Roboto_400Regular,
   Roboto_700Bold,
 } from "@expo-google-fonts/roboto";
 
 const StyledStripes = styled(Stripes);
 
+const discovery = {
+  authorizationEndpoint: "https://github.com/login/oauth/authorize",
+  tokenEndpoint: "https://github.com/login/oauth/access_token",
+  revocationEndpoint:
+    "https://github.com/settings/connections/applications/c8512692946dc4f7e98c",
+};
+
 export default function App() {
+  const router = useRouter()
+  const [, response, signInWithGitHub] = useAuthRequest(
+    {
+      clientId: "c8512692946dc4f7e98c",
+      scopes: ["identity"],
+      redirectUri: makeRedirectUri({
+        scheme: "nlwspacetime",
+      }),
+    },
+    discovery
+  );
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { code } = response.params;
+      api
+        .post("/register", {
+          code,
+        })
+        .then((response) => {
+          const { token } = response.data;
+
+          SecureStore.setItemAsync("token", token);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [response]);
+
   const [hasLoadedFonts] = useFonts({
     Roboto_700Bold,
     Roboto_400Regular,
@@ -49,6 +89,7 @@ export default function App() {
         <TouchableOpacity
           activeOpacity={0.7}
           className="px-5 py-2 bg-green-500 rounded-full"
+          onPress={() => signInWithGitHub()}
         >
           <Text className="text-sm text-black uppercase font-alt">
             Cadastrar lembraça
