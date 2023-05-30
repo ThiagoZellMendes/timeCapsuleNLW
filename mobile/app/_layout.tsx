@@ -11,12 +11,13 @@ import {
   Roboto_400Regular,
   Roboto_700Bold,
 } from "@expo-google-fonts/roboto";
-import { ImageBackground, Text } from "react-native";
+import { ImageBackground } from "react-native";
 
 const StyledStripes = styled(Stripes);
 
 export default function Layout() {
-  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+  const [isUserAuthenticated, setIsUserAuthenticated] = 
+  useState<null | boolean>(null);
   const [hasLoadedFonts] = useFonts({
     Roboto_700Bold,
     Roboto_400Regular,
@@ -25,11 +26,9 @@ export default function Layout() {
 
   useEffect(() => {
     SecureStore.getItemAsync('token').then((token) => {
-      console.log(!!token);
-
-      setIsUserAuthenticated(false);
+      setIsUserAuthenticated(!!token);
     })
-  })
+  }, [])
 
   if (!hasLoadedFonts) {
     return <SplashScreen />;
@@ -49,7 +48,8 @@ export default function Layout() {
         }}
       >
         <Stack.Screen name="index" redirect={isUserAuthenticated} />
-        <Stack.Screen name="memories" />
+        {/* <Stack.Screen name="new" /> */}
+        {/* <Stack.Screen name="memories" /> */}
       </Stack>
     </ImageBackground>
   );
