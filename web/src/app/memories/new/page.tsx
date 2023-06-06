@@ -1,5 +1,5 @@
-import { MediaPicker } from "@/components/mediaPicker";
-import { Camera, ChevronLeft } from "lucide-react";
+import { NewMemoryForm } from "@/components/newMemoryForm";
+import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function NewMemory() {
@@ -13,40 +13,7 @@ export default function NewMemory() {
         voltar à timeline
       </Link>
 
-      <form className="flex flex-col flex-1 gap-2">
-        <div className="flex items-center gap-4">
-          <label
-            htmlFor="media"
-            className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-200 hover:text-gray-100"
-          >
-            <Camera className="w-4 h-4" />
-            Anexar mídia
-          </label>
-
-          <label
-            htmlFor="isPublic"
-            className="flex items-center gap-1.5 text-sm text-gray-200 hover:text-gray-100"
-          >
-            <input
-              type="checkbox"
-              name="isPublic"
-              id="isPublic"
-              value="true"
-              className="w-4 h-4 text-purple-500 border-gray-700 rounded"
-            />
-            Tornar memória pública
-          </label>
-        </div>
-
-        <MediaPicker />
-
-        <textarea
-          name="content"
-          spellCheck={false}
-          className="flex-1 w-full p-0 text-lg leading-relaxed text-gray-100 bg-transparent border-0 rounded resize-none placeholder:text-gray-400 focus:ring-0"
-          placeholder="Fiquei livre para adicionar fotos, vídeos e relatos sobre essa experiência que você quer lembrar para sempre"
-        />
-      </form>
+    <NewMemoryForm />
     </div>
   );
 }
