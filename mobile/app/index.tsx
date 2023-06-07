@@ -1,13 +1,31 @@
-import { Switch, Text, TextInput, View } from "react-native";
+import { Image, Switch, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import NLWLogo from "../src/assets/nlw-logo.svg";
 import { Link } from "expo-router";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "@expo/vector-icons/Feather";
 import { useState } from "react";
+import * as ImagePicker from "expo-image-picker";
+
 export default function newMemory() {
   const { bottom, top } = useSafeAreaInsets();
   const [isPublic, setIsPublic] = useState(false);
+  const [preview, setPreview] = useState<null | string>(null);
+
+  async function openImagePicker() {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+      });
+
+      if (result.assets[0]) {
+        setPreview(result.assets[0].uri);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <ScrollView
       className="flex-1 px-8"
@@ -34,13 +52,21 @@ export default function newMemory() {
             Tornar memória pública
           </Text>
         </View>
-        <TouchableOpacity className="items-center justify-center h-32 border border-gray-500 border-dashed rounded-lg bg-b/20">
-          <View className="flex-row items-center gap-2">
-            <Icon name="image" color={"#FFF"} />
-            <Text className="text-gray-200 test-sm font-body">
-              Adicionar foto ou vídeo de capa
-            </Text>
-          </View>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={openImagePicker}
+          className="items-center justify-center h-32 border border-gray-500 border-dashed rounded-lg bg-b/20"
+        >
+          {preview ? (
+            <Image source={{ uri: preview }} className="object-cover w-full h-full rounded-lg" />
+          ) : (
+            <View className="flex-row items-center gap-2">
+              <Icon name="image" color={"#FFF"} />
+              <Text className="text-gray-200 test-sm font-body">
+                Adicionar foto ou vídeo de capa
+              </Text>
+            </View>
+          )}
         </TouchableOpacity>
 
         <TextInput
