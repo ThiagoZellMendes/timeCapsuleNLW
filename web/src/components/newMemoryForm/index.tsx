@@ -12,7 +12,7 @@ export function NewMemoryForm() {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-  
+
     console.log(Array.from(formData.entries()));
 
     const fileToUpload = formData.get("coverUrl");
@@ -43,7 +43,7 @@ export function NewMemoryForm() {
         }
       );
     }
-    router.push("/");
+    router.push('/')
   }
 
   return (
@@ -80,7 +80,7 @@ export function NewMemoryForm() {
         className="flex-1 w-full p-0 text-lg leading-relaxed text-gray-100 bg-transparent border-0 rounded resize-none placeholder:text-gray-400 focus:ring-0"
         placeholder="Fiquei livre para adicionar fotos, vídeos e relatos sobre essa experiência que você quer lembrar para sempre"
       />
-      <button 
+      <button
         type="submit"
         className="inline-block px-5 py-3 text-sm leading-none text-black uppercase bg-green-500 rounded-full font-alt hover:bg-green-600"
       >
