@@ -38,29 +38,12 @@ export default function App() {
 
     const { token } = response.data;
 
-    console.log(response.data);
-
     await SecureStore.setItemAsync("token", token);
 
     router.push("/memories");
   }
 
   useEffect(() => {
-    // if (response?.type === "success") {
-    //   const { code } = response.params;
-    //   api
-    //     .post("/register", {
-    //       code,
-    //     })
-    //     .then((response) => {
-    //       const { token } = response.data;
-
-    //       SecureStore.setItemAsync("token", token);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // }
     if (response?.type === 'success') {
       const { code } = response.params
 
