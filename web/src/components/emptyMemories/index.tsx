@@ -1,6 +1,6 @@
 export function EmptyMemories () {
   return (
-    <div className="flex items-center justify-center flex-1">
+    <div className="flex items-center justify-center flex-1 p-16">
     <p className="w-[360px] text-center leading-relaxed">
       Você ainda não registrou nenhuma lembrança, comece a{" "}
       <a href="/memories/new" className="underline hover:text-gray-50">
